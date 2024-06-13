@@ -5,7 +5,7 @@ services:
     image: quay.io/keycloak/keycloak:23.0.6
     command: start
     environment:
-      KC_HOSTNAME: localhost
+      KC_HOSTNAME: ${HOSTNAME}
       KC_HOSTNAME_PORT: 8080
       KC_HOSTNAME_STRICT_BACKCHANNEL: false
       KC_HTTP_ENABLED: true
@@ -20,15 +20,7 @@ services:
     ports:
       - 8080:8080
     restart: always
-    depends_on:
-      - postgres
-    networks:
-      - keycloak_network
 
 volumes:
   postgres_data:
     driver: local
-
-networks:
-  keycloak_network:
-    driver: bridge
