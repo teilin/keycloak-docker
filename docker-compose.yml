@@ -1,0 +1,26 @@
+version: '3.4'
+
+services:
+  keycloak:
+    build:
+      context: ./keycloak
+    container_name: keycloak
+    image: keycloak_image
+    restart: unless-stopped
+    environment:
+      KEYCLOAK_ADMIN: ${KEYCLOAK_ADMIN:-admin}
+      KEYCLOAK_ADMIN_PASSWORD: ${KEYCLOAK_ADMIN_PASSWORD:-admin}
+      KC_HTTP_ENABLED: "true"
+      KC_HOSTNAME: auth.devgeek.io
+      # KC_HOSTNAME_PORT: 8443
+      PROXY_ADDRESS_FORWARDING: "true"
+      KC_HOSTNAME_STRICT: "false"
+      KC_HOSTNAME_STRICT_BACKCHANNEL: "true"
+      KC_HOSTNAME_STRICT_HTTPS: "false"
+      KC_DB: postgres
+      KC_DB_URL: jdbc:postgresql://kcssoc0:5432/${POSTGRES_DB:-keycloak}?useSSL=false
+      KC_DB_USERNAME: ${POSTGRES_USER:-keycloak}
+      KC_DB_PASSWORD: ${POSTGRES_PASSWORD:-p@ssw0rd}
+      KC_PROXY: edge
+    # volumes:
+    #   - ./keycloak/themes/custom:/opt/keycloak/themes/custom
